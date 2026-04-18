@@ -284,7 +284,7 @@ public class StreamSettings extends Activity {
             ConfigurationInfo configurationInfo = activityManager.getDeviceConfigurationInfo();
             boolean supportsGles31 = configurationInfo.reqGlEsVersion >= 0x30001;
 
-            // Handle Video Super Resolution checkbox
+            // Handle 3D Conversion checkbox
             CheckBoxPreference videoSrPref = (CheckBoxPreference) findPreference("checkbox_video_sr");
             if (videoSrPref != null) {
                 if (!supportsGles31) {
