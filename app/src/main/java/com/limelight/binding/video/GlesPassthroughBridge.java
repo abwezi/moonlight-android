@@ -98,6 +98,7 @@ public class GlesPassthroughBridge implements SurfaceTexture.OnFrameAvailableLis
     private int post_aPositionHandle;
     private int post_aTexCoordHandle;
     private int post_sTextureHandle;
+	private int post_uResolutionHandle;
 
     // Full-screen quad vertices (Position X, Y, Texture X, Y)
     private static final float[] VERTICES = {
@@ -276,7 +277,7 @@ public class GlesPassthroughBridge implements SurfaceTexture.OnFrameAvailableLis
             postProgram = 0;
         }
 
-        String postSource = loadAsset("sgsr1_shader_mobile_edge_direction.frag");
+        String postSource = loadAsset("3DtoElse.frag");
 
         // Define stream size resolutions constants directly into the GLSL Code at compile time
         // This leverages "Constant Folding", an optimization where the GPU calculates all
@@ -287,7 +288,7 @@ public class GlesPassthroughBridge implements SurfaceTexture.OnFrameAvailableLis
                                     "#define INV_SRC_H " + (1.0f / streamHeight) + "\n";
 
         if (postSource == null || postSource.trim().isEmpty()) {
-            LimeLog.warning(TAG + ": sgsr1_shader_mobile_edge_direction.frag is missing or empty. Using fallback shader.");
+            LimeLog.warning(TAG + ": 3DtoElse.frag is missing or empty. Using fallback shader.");
             postSource = FALLBACK_POST_FRAGMENT_SHADER;
         } else {
             // Inject the dynamic resolutions into the source code of the Fragment Shader.
@@ -319,7 +320,8 @@ public class GlesPassthroughBridge implements SurfaceTexture.OnFrameAvailableLis
         post_sTextureHandle = GLES31.glGetUniformLocation(postProgram, "sTexture");
         if (post_sTextureHandle == -1) post_sTextureHandle = GLES31.glGetUniformLocation(postProgram, "uTexture");
         if (post_sTextureHandle == -1) post_sTextureHandle = GLES31.glGetUniformLocation(postProgram, "Source");
-        if (post_sTextureHandle == -1) post_sTextureHandle = GLES31.glGetUniformLocation(postProgram, "ps0"); // Used by SGSR1
+        if (post_sTextureHandle == -1) post_sTextureHandle = GLES31.glGetUniformLocation(postProgram, "ps0");
+		post_uResolutionHandle = GLES31.glGetUniformLocation(postProgram, "uResolution");
     }
 
     /**
@@ -406,7 +408,15 @@ public class GlesPassthroughBridge implements SurfaceTexture.OnFrameAvailableLis
 
         GLES31.glUseProgram(postProgram);
 
-        if (post_sTextureHandle >= 0) GLES31.glUniform1i(post_sTextureHandle, 0);
+		// Bind texture
+		if (post_sTextureHandle >= 0) {
+		GLES31.glUniform1i(post_sTextureHandle, 0);
+	}
+
+		// NEW: Set resolution (CRITICAL for interlacing)
+		if (post_uResolutionHandle >= 0) {
+		GLES31.glUniform2f(post_uResolutionHandle, displayWidth, displayHeight);
+	}
 
         // Bind the 2D texture populated during Pass 1
         GLES31.glActiveTexture(GLES31.GL_TEXTURE0);
