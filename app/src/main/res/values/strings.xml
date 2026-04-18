@@ -296,8 +296,8 @@
     <string name="pacing_balanced_alt">Balanced with FPS limit</string>
     <string name="pacing_smoothness">Prefer smoothest video (may significantly increase latency)</string>
 
-    <string name="title_video_sr">Video Super Resolution</string>
-    <string name="summary_video_sr">Leverage hardware acceleration to improve picture clarity</string>
+    <string name="title_video_sr">SBS to interlaced for 3D Tablets</string>
+    <string name="summary_video_sr">Convert incoming SBS stream to Column Interlaced for 3D tablets</string>
 
     <string name="title_analog_scrolling">Use an analog stick to scroll</string>
     <string name="summary_analog_scrolling">Select an analog stick to scroll when in mouse emulation mode</string>
