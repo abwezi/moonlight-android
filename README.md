@@ -1,4 +1,6 @@
-# Moonlight Android
+# Moonlight Android (3D Tablet)
+
+This is a fork of linckosz's modifications to Moonlight Android that allow importing shader effects. This contains a ported version of BlueSkyDefender's 3DtoElse shader to allow converting an incoming Half SBS 3D from the host computer into column interlaced format for glasses free 3D tablets such as the IQH3D SKYY 3D tablet.
 
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/232a8tadrrn8jv0k/branch/master?svg=true)](https://ci.appveyor.com/project/cgutman/moonlight-android/branch/master)
 [![Translation Status](https://hosted.weblate.org/widgets/moonlight/-/moonlight-android/svg-badge.svg)](https://hosted.weblate.org/projects/moonlight/moonlight-android/)
